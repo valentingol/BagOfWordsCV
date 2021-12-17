@@ -22,7 +22,7 @@ def get_keypoints(data, select=None, show_img=False, show_keypoints=False,
     keypoints = []
     for ind, img in enumerate(data):
         mask = mask_red(img)
-        if show_img and ind==393:
+        if show_img:
             cv2.imshow(f'img {ind}', (img * 255).astype(np.uint8))
             cv2.imshow(f'mask {ind}', (mask * 255).astype(np.uint8))
             cv2.waitKey(0)
@@ -56,7 +56,7 @@ if __name__ == '__main__':
              'tomato': (1, 100)}
     (data_train, _), _ = get_dataset('dataset/fruits', infos)
     t0 = time()
-    desc, keyps = get_keypoints(data_train, select=None, show_img=True)
+    desc, keyps = get_keypoints(data_train, select=None)
     t1 = time()
     print('descriptor shape (select=None)', desc.shape)
 
