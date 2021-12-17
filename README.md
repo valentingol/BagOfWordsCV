@@ -2,7 +2,7 @@
 
 Computer Vision project for image classification pipeline using keypoints detection.
 
-![intro](ressources/bag_of_words_intro.png)
+![intro](ressources/bag_of_words_intro.jpg)
 
 ## Description
 
@@ -26,8 +26,8 @@ The fruits dataset is available on the repository (loaded with Git LFS). The dat
 
 A simple segmentation using RGB thresholding is first applied to the images to get the mask of apple and tomatoes:
 
-![simple segmentation 1](ressources/simple_segmentation_1.png)
-![simple segmentation 2](ressources/simple_segmentation_2.png)
+![simple segmentation 1](ressources/rgb_segmentation_1.png)
+![simple segmentation 2](ressources/rgb_segmentation_2.png)
 
 Then, the SIFT keypoints detection is applied on the gray-scale images and only the keypoints in the mask or kept:
 
