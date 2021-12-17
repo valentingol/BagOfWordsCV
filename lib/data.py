@@ -4,6 +4,27 @@ import cv2
 import numpy as np
 
 def get_dataset(path, infos, val_ratio=0.2, seed=0):
+    """Load the dataset from the given path.
+
+    Parameters
+    ----------
+    path : str
+        Path to the dataset.
+    infos : dict
+        A dictionary of the form {'subfolder_name': (label, num_sample)}
+        Where subfolder_name is the name of the subfolder in the path
+        containing pictures, label is the label of these pictures and
+        num_sample is the number of pictures to take from the subfolder.
+    val_ratio : float, optional
+        Validation set ration, by default 0.2.
+    seed : int, optional
+        Seed of the shuffle operation, by default 0.
+
+    Returns
+    -------
+    (data_train, label_train), (data_val, label_val): np.array
+        Training and validation sets.
+    """
     # Set the seed
     np.random.seed(seed)
 
