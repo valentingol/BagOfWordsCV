@@ -1,25 +1,24 @@
-from functools import partial
 from time import time
 
 from lib.bag_of_words import bag_of_words_kmeans
 from lib.data import get_dataset
-from lib.descriptors import get_keypoints_sift
-from lib.mask import mask_rgb
+from lib.descriptors import get_keypoints_orb
+from lib.mask import mask_apple_tomato
 
 if __name__ == '__main__':
-    n_clusters = 200
-    save_path = f'vocabulary/fruits/apple_a_{n_clusters}.npy'
+    n_clusters = 20
+    descriptor = 'orb'
+    save_path = f'vocabulary/fruits/tomato_{n_clusters}_{descriptor}.npy'
 
-    infos = {'apple_a': (0, 300), 'apple_b': (1, 0), 'apple_c': (1, 0),
-             'tomato': (1, 0)}
+    infos = {'apple_a': (0, 0), 'apple_b': (1, 0), 'apple_c': (1, 0),
+             'tomato': (1, 500)}
 
     (data_train, _), _ = get_dataset('dataset/fruits', infos)
 
-    mask_thresholds = {'r': (0.4, '>'), 'g': (0.5, '<'), 'b': (0.5, '<')}
-    mask_func = partial(mask_rgb, thresholds=mask_thresholds)
+    mask_func = mask_apple_tomato
 
     t0 = time()
-    descriptors, _ = get_keypoints_sift(data_train, select=None,
+    descriptors, _ = get_keypoints_orb(data_train, select=None,
                                         mask_func=mask_func)
     print('number of descriptors:', len(descriptors))
 

@@ -49,6 +49,10 @@ def test_mask(data, mask_func, n=20):
             break
 
 
+def mask_apple_tomato(img):
+    mask_bool = img[..., 0] > (img[..., 1] + img[..., 2]) * 0.6
+    return mask_bool
+
 if __name__ == '__main__':
     from functools import partial
     from lib.data import get_dataset
@@ -57,7 +61,7 @@ if __name__ == '__main__':
                 'tomato': (1, 0)}
     (data, _), _ = get_dataset('dataset/fruits', infos)
 
-    mask_thresholds = {'r': (0.4, '>'), 'g': (0.5, '<'), 'b': (0.5, '<')}
+    mask_thresholds = {'r': (0.2, '>'), 'g': (0.43, '<'), 'b': (0.39, '<')}
     mask_func = partial(mask_rgb, thresholds=mask_thresholds)
 
-    test_mask(data, mask_func, n=5)
+    test_mask(data, mask_apple_tomato, n=5)
