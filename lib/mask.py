@@ -36,11 +36,13 @@ def mask_rgb(img, thresholds):
 def test_mask(data, mask_func, n=20):
     """Display n images with their masks (computed using mask_func)."""
     for i, img in enumerate(data):
-        mask = (mask_func(img) * 255).astype(np.uint8)
+        mask = mask_func(img)
         img = (img * 255).astype(np.uint8)
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+        masked_img = img * mask[..., None]
+
         cv2.imshow(f'img {i}', img)
-        cv2.imshow(f'mask {i}', mask)
+        cv2.imshow(f'masked img {i}', masked_img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
         if i == n - 1:
@@ -58,4 +60,4 @@ if __name__ == '__main__':
     mask_thresholds = {'r': (0.4, '>'), 'g': (0.5, '<'), 'b': (0.5, '<')}
     mask_func = partial(mask_rgb, thresholds=mask_thresholds)
 
-    test_mask(data, mask_func, n=100)
+    test_mask(data, mask_func, n=5)
