@@ -61,7 +61,7 @@ if __name__ == '__main__':
 
     desc_val, _ = get_keypoints_sift(data_val, select=200,
                                      mask_func=mask_func)
-    # desc_val shape = (n_val, 200, 128)
+    # desc_val shape = (n_val, 200, desc_dim)
     n_val = len(desc_val)
     n_voc = len(vocabulary)
     fig, axes = plt.subplots(n_val//2, 2, figsize=(12, 6 * n_val))
