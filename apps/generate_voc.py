@@ -8,7 +8,7 @@ from lib.mask import mask_rgb
 
 if __name__ == '__main__':
     n_clusters = 200
-    save_path = f'vocabulary/fruits/apple_a/apple_a_{n_clusters}.npy'
+    save_path = f'vocabulary/fruits/apple_a_{n_clusters}.npy'
 
     infos = {'apple_a': (0, 300), 'apple_b': (1, 0), 'apple_c': (1, 0),
              'tomato': (1, 0)}
