@@ -16,23 +16,30 @@ def bag_of_words_kmeans(descriptors, n_clusters, seed=0, save_path=None):
         np.save(save_path, vocabulary)
     return vocabulary
 
+
 def select_word(descriptors, vocabulary):
     # Cosine distance
     dist = np.dot(descriptors, vocabulary.T)
-    dist /= np.linalg.norm(descriptors, axis=1)[:, None]
-    dist /= np.linalg.norm(vocabulary, axis=1)[None, :]
-    return np.argmin(dist, axis=1)
+    dist /= np.linalg.norm(descriptors, axis=-1)[..., None]
+    dist /= np.linalg.norm(vocabulary, axis=-1)[None, :]
+    return np.argmax(dist, axis=-1)
+
 
 def get_features(descriptors, vocabulary):
+    batch_size = descriptors.shape[0]
     words = select_word(descriptors, vocabulary)
-    count = Counter(words)
-    features = np.zeros(len(vocabulary))
-    for c in count:
-        features[c] = count[c]
-    # Normalize features
-    features /= np.sum(features)
-    features *= len(vocabulary)
-    return features
+    features_list = []
+
+    for i in range(batch_size):
+        features = np.zeros(len(vocabulary))
+        count = Counter(words[i])
+        for c in count:
+            features[c] = count[c]
+        # Normalize features
+        features /= np.sum(features)
+        features *= len(vocabulary)
+        features_list.append(features)
+    return np.array(features_list)
 
 
 if __name__ == '__main__':
@@ -59,10 +66,13 @@ if __name__ == '__main__':
     n_voc = len(vocabulary)
     fig, axes = plt.subplots(n_val//2, 2, figsize=(12, 6 * n_val))
     for i, descriptors in enumerate(desc_val):
+        d = descriptors.shape[-1]
+        descriptors = descriptors.reshape(1, -1, d)
         plt.sca(axes[i//2, i%2])
         plt.title('image {}'.format(i))
         plt.xlabel('word')
         plt.ylabel('proportion')
         features = get_features(descriptors, vocabulary)
+        features = features.reshape(-1, )
         plt.bar(np.arange(n_voc), features, width=1)
     plt.show()
