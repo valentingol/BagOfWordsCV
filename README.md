@@ -79,9 +79,11 @@ Pipeline:
 
 - [x] Implement a complete pipeline
 
-- [x] Apply segmentation before keypoints detection (uniform color in background)
+- [ ] Make the possibility to shuffle data
 
-- [x] Implement small CNNs + training (for comparison)
+- [ ] Improve the cross-validation to less overfit the validation set
+
+- [ ] Optimize the vocabulary size
 
 Implement segmentation algorithm:
 
@@ -99,7 +101,7 @@ Implement keypoints detectors:
 
 - [ ] SURF
 
-- [ ] ORB
+- [x] ORB
 
 Implement vocabulary clustering algorithm:
 
