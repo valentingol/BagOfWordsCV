@@ -3,7 +3,7 @@ import os
 import cv2
 import numpy as np
 
-def get_dataset(path, infos, val_ratio=0.2, seed=0):
+def get_dataset(path, infos, val_ratio=0.2, seed=0, resolution=None):
     """Load the dataset from the given path.
 
     Parameters
@@ -19,6 +19,8 @@ def get_dataset(path, infos, val_ratio=0.2, seed=0):
         Validation set ration, by default 0.2.
     seed : int, optional
         Seed of the shuffle operation, by default 0.
+    resolution: tuple or None, optional
+        Resolution of the pictures, by default None (no change).
 
     Returns
     -------
@@ -42,6 +44,8 @@ def get_dataset(path, infos, val_ratio=0.2, seed=0):
                     c += 1
                     img = cv2.imread(os.path.join(dataset_path, fname))
                     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                    if resolution is not None:
+                        img = cv2.resize(img, (resolution[1], resolution[0]))
                     images[label].append(img)
                     if c >= n_sample:
                         break

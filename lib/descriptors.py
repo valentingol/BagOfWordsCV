@@ -45,23 +45,25 @@ def get_keypoints_sift(data, select=None, mask_func=None,
     descriptors = []
     keypoints = []
     for ind, img in enumerate(data):
+        masked_img = img * mask_func(img)[..., None]
+
         # Get SIFT keypoints
-        gray= cv2.cvtColor((img * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY)
+        gray= cv2.cvtColor((masked_img * 255).astype(np.uint8),
+                           cv2.COLOR_RGB2GRAY)
         sift = cv2.SIFT_create()
         kp, des = sift.detectAndCompute(gray,None)
 
-        if mask_func is not None:
-            # Remove keypoints outside the mask
-            pts = np.array([kp[i].pt for i in range(len(kp))])
-            pts = pts.astype(np.uint8)
-            mask = mask_func(img)
-            indicies = np.where(mask[pts[:, 1], pts[:, 0]])[0]
-        else:
-            indicies = np.arange(len(des))
+        indicies = np.arange(len(des))
 
         if select is not None:
             # Select a subset of keypoints (at random)
-            indicies = np.random.choice(indicies, select, replace=True)
+            k = select // len(indicies)
+            indicies_list = []
+            for _ in range(k):
+                indicies_list.append(indicies)
+            indicies_list.append(np.random.choice(indicies, select % len(indicies),
+                                              replace=False))
+            indicies = np.hstack(indicies_list)
 
         keypoints.append([kp[i] for i in indicies])
         if select is not None:
@@ -92,6 +94,5 @@ if __name__ == '__main__':
 
     desc, keyps = get_keypoints_sift(data_train, select=20, mask_func=None)
     print('descriptor shape (select=20)', desc.shape)
-    print('num keypoints', len(keyps))
 
     print(f'time to get keypoints: {t1 - t0: .2f}s')

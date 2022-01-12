@@ -44,3 +44,77 @@ After that, we can compute a vector of features for each image using SIFT descri
 Finally, a SVM is apply to classify the images correctly using the features vectors.
 
 ![SVM](ressources/img_svm.png)
+
+## How to use the project
+
+### Understand the functions in `lib` and implement your own (if needed)
+
+- `lib/data.py`: functions to load and label your dataset
+
+- `lib/mask.py`: functions to apply segmentation (before applying a keypoint detector)
+
+- `lib/descriptors.py`: keypoints detector and extractor of their descriptions
+
+- `lib/bag_of_words.py`: functions to generate a vocabulary
+
+- `lib/classifier.py`: class of final classifiers (SVM, ...)
+
+### Generate your own vocabularies and train your classifier
+
+To generate your vocabularies using the functions in `lib`:
+
+```script
+python3 apps/generate_voc.py
+```
+
+To train your classifier (with grid search inside):
+
+```script
+python3 apps/train_classifier.py
+```
+
+## To-do list
+
+Pipeline:
+
+- [x] Implement a complete pipeline
+
+- [x] Apply segmentation before keypoints detection (uniform color in background)
+
+- [x] Implement small CNNs + training (for comparison)
+
+Implement segmentation algorithm:
+
+- [x] RGB thresholding
+
+- [ ] Otsu's method
+
+- [ ] Active contour segmentation
+
+- [ ] Watershed segmentation
+
+Implement keypoints detectors:
+
+- [x] SIFT
+
+- [ ] SURF
+
+- [ ] ORB
+
+Implement vocabulary clustering algorithm:
+
+- [x] K-mean
+
+- [ ] PCA (to applied before clustering)
+
+- [ ] Agglomerative clustering
+
+Implement method to get features vectors:
+
+- [x] Cosine distance 1-NN
+
+- [ ] Euclidian distance 1-NN
+
+Implement classifier:
+
+- [x] SVM
