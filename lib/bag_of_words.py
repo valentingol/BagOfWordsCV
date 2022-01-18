@@ -3,6 +3,7 @@ from functools import partial
 
 from matplotlib import pyplot as plt
 import numpy as np
+from scipy.spatial import distance_matrix
 from sklearn.cluster import KMeans
 
 from lib.data import get_dataset
@@ -17,17 +18,35 @@ def bag_of_words_kmeans(descriptors, n_clusters, seed=0, save_path=None):
     return vocabulary
 
 
-def select_word(descriptors, vocabulary):
-    # Cosine distance
-    dist = np.dot(descriptors, vocabulary.T)
-    dist /= np.linalg.norm(descriptors, axis=-1)[..., None]
-    dist /= np.linalg.norm(vocabulary, axis=-1)[None, :]
+def select_word(descriptors, vocabulary, dist, threshold=250_000_000):
+    if dist == 'euclidian':
+        ax = np.newaxis
+        batch_size, n_desc, dim = descriptors.shape
+        vocab_size = vocabulary.shape[0]
+        if batch_size * n_desc * vocab_size * dim > threshold:
+            vocabulary = vocabulary[ax, ...]
+            dist = np.empty((batch_size, n_desc, vocab_size))
+            for i, desc_img in enumerate(descriptors):
+                desc_img = desc_img[:, ax, :]
+                dist[i] = np.sum(np.square(desc_img - vocabulary), axis=-1) ** 0.5
+        else:
+            descriptors = descriptors[..., ax, :]
+            vocabulary = vocabulary[ax, ax, ...]
+            dist = np.sum(np.square(descriptors - vocabulary), axis=-1) ** 0.5
+    elif dist == 'cosine':
+        # Cosine distance
+        dist = np.dot(descriptors, vocabulary.T)
+        dist /= np.linalg.norm(descriptors, axis=-1)[..., None]
+        dist /= np.linalg.norm(vocabulary, axis=-1)[None, :]
+    else:
+        raise ValueError(f"Unknown distance: '{dist}' (should be 'euclidian' "
+                         "or 'cosine'")
     return np.argmax(dist, axis=-1)
 
 
-def get_features(descriptors, vocabulary):
+def get_features(descriptors, vocabulary, dist='euclidian'):
     batch_size = descriptors.shape[0]
-    words = select_word(descriptors, vocabulary)
+    words = select_word(descriptors, vocabulary, dist=dist)
     features_list = []
 
     for i in range(batch_size):
