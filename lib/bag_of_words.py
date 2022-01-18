@@ -3,7 +3,6 @@ from functools import partial
 
 from matplotlib import pyplot as plt
 import numpy as np
-from scipy.spatial import distance_matrix
 from sklearn.cluster import KMeans
 
 from lib.data import get_dataset
