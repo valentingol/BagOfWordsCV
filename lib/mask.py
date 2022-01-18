@@ -49,9 +49,18 @@ def test_mask(data, mask_func, n=20):
             break
 
 
-def mask_apple_tomato(img):
-    mask_bool = img[..., 0] > (img[..., 1] + img[..., 2]) * 0.6
-    return mask_bool
+def mask_apple_tomato(imgs):
+    masks_bool = imgs[..., 0] > (imgs[..., 1] + imgs[..., 2]) * 0.65
+    masks = np.where(masks_bool, 1.0, 0.0)
+    if masks_bool.ndim == 3:
+        masks = cv2.dilate(masks, kernel=np.ones((5, 5), np.uint8), iterations=4)
+        return np.squeeze(np.where(masks == 1.0, True, False))
+    else:
+        res = []
+        for mask in masks:
+            mask = cv2.dilate(mask, kernel=np.ones((5, 5), np.uint8), iterations=4)
+            res.append(np.squeeze(np.where(mask == 1.0, True, False)))
+    return np.array(res)
 
 if __name__ == '__main__':
     from functools import partial
