@@ -5,3 +5,5 @@ opencv_python==4.5.4.60
 scikit_learn==1.0.2
 setuptools==59.1.1
 tensorflow==2.7.0
+opencv_python
+scikit-image

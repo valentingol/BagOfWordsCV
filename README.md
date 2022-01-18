@@ -10,15 +10,15 @@ The project follow the [bag-of-words](https://en.wikipedia.org/wiki/Bag-of-words
 
 The pipeline can be described as follows:
 
-- 1) Apply a segmentation algorithm on all images to extract regions of interest
+- 1. Apply a segmentation algorithm on all images to extract regions of interest
 
-- 2) Apply a keypoints detection algorithm such as SIFT or SURF on images and select the keypoints in regions of interest
+- 2. Apply a keypoints detection algorithm such as SIFT or SURF on images and select the keypoints in regions of interest
 
-- 3) Apply a clustering algorithm on each keypoint descriptors of each class to extract a vocabulary of descriptors
+- 3. Apply a clustering algorithm on each keypoint descriptors of each class to extract a vocabulary of descriptors
 
-- 4) Apply a histogram-of-words algorithm on each image to get features vectors
+- 4. Apply a histogram-of-words algorithm on each image to get features vectors
 
-- 5) Apply a classifier like SVM or Gradient Boosting to classify each images
+- 5. Apply a classifier like SVM or Gradient Boosting to classify each images
 
 ## Example on fruits dataset
 
@@ -87,9 +87,9 @@ Implement segmentation algorithm:
 
 - [x] RGB thresholding
 
-- [ ] Otsu's method
+- [x] Otsu's method
 
-- [ ] Active contour segmentation
+- [x] Active contour segmentation
 
 - [ ] Watershed segmentation
 
