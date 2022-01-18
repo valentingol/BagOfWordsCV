@@ -1,4 +1,3 @@
-from collections import Counter
 from functools import partial
 
 from matplotlib import pyplot as plt
@@ -49,14 +48,8 @@ def get_features(descriptors, vocabulary, dist='euclidian'):
     features_list = []
 
     for i in range(batch_size):
-        features = np.zeros(len(vocabulary))
-        count = Counter(words[i])
-        for c in count:
-            features[c] = count[c]
-        # Normalize features
-        features /= np.sum(features)
-        features *= len(vocabulary)
-        features_list.append(features)
+        features = np.histogram(words[i], bins=len(vocabulary), density=True)[0]
+        features_list.append(features * len(vocabulary))
     return np.array(features_list)
 
 
