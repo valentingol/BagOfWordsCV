@@ -79,9 +79,7 @@ Pipeline:
 
 - [x] Implement a complete pipeline
 
-- [ ] Make the possibility to shuffle data
-
-- [ ] Improve the cross-validation to less overfit the validation set
+- [x] Improve the cross-validation to less overfit the validation set
 
 - [ ] Optimize the vocabulary size
 
@@ -115,7 +113,7 @@ Implement method to get features vectors:
 
 - [x] Cosine distance 1-NN
 
-- [ ] Euclidian distance 1-NN
+- [x] Euclidian distance 1-NN
 
 Implement classifier:
 
