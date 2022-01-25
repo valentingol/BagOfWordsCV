@@ -2,7 +2,7 @@ from functools import partial
 
 from matplotlib import pyplot as plt
 import numpy as np
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, AgglomerativeClustering
 
 from lib.data import get_dataset
 from lib.descriptors import get_keypoints_sift
