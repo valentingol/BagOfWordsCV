@@ -107,7 +107,7 @@ Implement vocabulary clustering algorithm:
 
 - [ ] PCA (to applied before clustering)
 
-- [ ] Agglomerative clustering
+- [x] Agglomerative clustering
 
 Implement method to get features vectors:
 
